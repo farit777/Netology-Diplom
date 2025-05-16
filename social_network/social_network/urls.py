@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from posts.views import PostViewSet, CommentViewSet
+from posts.views import PostViewSet, CommentViewSet, LikeViewSet
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -28,7 +28,6 @@ router.register(r'comments', CommentViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/posts/<int:post_id>/like/', LikeViewSet.as_view({'post': 'create'}), name='add-like'),
+    path('api/posts/<int:post_id>/like/', LikeViewSet.as_view({'delete': 'destroy'}), name='remove-like'),
 ]
-
-# Настройки для медиа файлов
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
